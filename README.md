@@ -6,8 +6,6 @@ This is a [Piwigo](http://piwigo.org/) plugin that will allow you to enable [Twi
 NOTE:
 * Before the photo cards will be enabled on Twitter you must submit your site with the [Twitter Cards Validator](https://dev.twitter.com/docs/cards/validation/validator).
 
-Enjoy!
-
 
 
 
