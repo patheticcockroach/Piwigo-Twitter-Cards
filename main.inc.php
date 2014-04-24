@@ -18,7 +18,7 @@ class TwitterCard
     // get image url
     $query = sprintf('
 		  select path, name
-		  FROM piwigo_images
+		  FROM '.IMAGES_TABLE.'
 		  WHERE id = %s
 		;',
 		$page['image_id']);
