@@ -140,7 +140,7 @@ class TwitterCard
     
 
     $template->append('head_elements',
-    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . '/' . $thumb . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . '/' . $thumb . '" />');
+    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumb . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumb . '" />');
   }
 }
 
