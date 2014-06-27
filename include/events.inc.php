@@ -145,11 +145,17 @@ class TwitterCard
 
 function test_for_gvideo($picture)
 {
-  if (!$picture['current']['is_gvideo'])
-  {
-    $obj = new Twittercard();
-    add_event_handler('render_element_content', array(&$obj, 'twittercard_load'),EVENT_HANDLER_PRIORITY_NEUTRAL-10, 2);
-  }
+    if(isset($picture['current']['is_gvideo']))
+    {
+        if (!$picture['current']['is_gvideo'])
+        {
+            $obj = new Twittercard();
+            add_event_handler('render_element_content', array(&$obj, 'twittercard_load'),EVENT_HANDLER_PRIORITY_NEUTRAL-10, 2);
+        }
+    }else{
+        $obj = new Twittercard();
+        add_event_handler('render_element_content', array(&$obj, 'twittercard_load'),EVENT_HANDLER_PRIORITY_NEUTRAL-10, 2);
+    }
   
   return $picture;
 }
