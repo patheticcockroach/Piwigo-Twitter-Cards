@@ -21,13 +21,20 @@ class TwitterCard
       WHERE id = %s
     ;',
     $page['image_id']);
-  $result = pwg_query($query);
-  $row = pwg_db_fetch_assoc($result);
-  $url = substr($row['path'],2);
+    $result = pwg_query($query);
+    $row = pwg_db_fetch_assoc($result);
+    $url = substr($row['path'],2);
     $title= str_replace('"', '\"',$row['name']);
 
+    // Check if folder exists
+    $thumbFolder = $_SERVER['DOCUMENT_ROOT'] . '/plugins/twittercards/thumbs/' . dirname($url);
+    if (!file_exists( $thumbFolder)) {
+        mkdir($thumbFolder, 0777, true);
+    }
+
     $extension_pos = strrpos($url, '.');
-    $thumb = substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
+    $thumb = $thumbFolder . "/" . basename(substr($url, 0, $extension_pos)) . '_tw_thumb' . substr($url, $extension_pos);
+    $thumbLocal = 'plugins/twittercards/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
     // Check if a thumb already exists, otherwise create a thumb
     if (!file_exists( $thumb ))
     {
@@ -139,7 +146,7 @@ class TwitterCard
     
 
     $template->append('head_elements',
-    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumb . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumb . '" />');
+    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '" />');
   }
 }
 
