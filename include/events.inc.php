@@ -25,6 +25,8 @@ class TwitterCard
     $row = pwg_db_fetch_assoc($result);
     $url = substr($row['path'],2);
     $title= str_replace('"', '\"',$row['name']);
+    $description= str_replace('"', '\"',$row['comment']);
+
 
     // Check if folder exists
     $thumbFolder = PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)) . '/thumbs/' . dirname($url);
@@ -140,9 +142,9 @@ class TwitterCard
         imageToFile($im, $thumb);
     }
 
-    $info = getimagesize( $thumb );
-    $width  = isset($info['width'])  ? $info['width']  : $info[0];
-    $height = isset($info['height']) ? $info['height'] : $info[1];
+    //$info = getimagesize( $thumb );
+    //$width  = isset($info['width'])  ? $info['width']  : $info[0];
+    //$height = isset($info['height']) ? $info['height'] : $info[1];
 
     // <meta name="twitter:image:width" content="' . $width . '">
     // <meta name="twitter:image:height" content="' . $height . '">
@@ -156,7 +158,7 @@ class TwitterCard
     '
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="' . $title . '">
-    <meta name="twitter:description" content="' . $title . '">
+    <meta name="twitter:description" content="' . $description . '">
     <meta name="twitter:site" content="' . $twitter_site . '">
     <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">
     ');
