@@ -39,7 +39,7 @@ class TwitterCard
     if (!file_exists( $thumb ))
     {
         /**
-        * Create a thumbnail image from $inputFileName no taller or wider than 
+        * Create a thumbnail image from $inputFileName no taller or wider than
         * $maxSize. Returns the new image resource or false on error.
         * Author: mthorn.net
         */
@@ -143,10 +143,23 @@ class TwitterCard
     $info = getimagesize( $thumb );
     $width  = isset($info['width'])  ? $info['width']  : $info[0];
     $height = isset($info['height']) ? $info['height'] : $info[1];
-    
+
+    // <meta name="twitter:image:width" content="' . $width . '">
+    // <meta name="twitter:image:height" content="' . $height . '">
+    //<meta property="og:title" content="' . $title . '" />
+    //<meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '" />');
+
+
+    $twitter_site = '@cloelkes';
 
     $template->append('head_elements',
-    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '" />');
+    '
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="' . $title . '">
+    <meta name="twitter:description" content="' . $title . '">
+    <meta name="twitter:site" content="' . $twitter_site . '">
+    <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">
+    ';
   }
 }
 
@@ -163,6 +176,6 @@ function test_for_gvideo($picture)
         $obj = new Twittercard();
         add_event_handler('render_element_content', array(&$obj, 'twittercard_load'),EVENT_HANDLER_PRIORITY_NEUTRAL-10, 2);
     }
-  
+
   return $picture;
 }
