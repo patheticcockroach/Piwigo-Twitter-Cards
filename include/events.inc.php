@@ -159,7 +159,7 @@ class TwitterCard
     <meta name="twitter:description" content="' . $title . '">
     <meta name="twitter:site" content="' . $twitter_site . '">
     <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">
-    ';
+    ');
   }
 }
 
