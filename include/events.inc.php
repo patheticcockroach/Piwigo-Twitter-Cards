@@ -27,14 +27,14 @@ class TwitterCard
     $title= str_replace('"', '\"',$row['name']);
 
     // Check if folder exists
-    $thumbFolder = $_SERVER['DOCUMENT_ROOT'] . '/plugins/twittercards/thumbs/' . dirname($url);
+    $thumbFolder = PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)) . '/thumbs/' . dirname($url);
     if (!file_exists( $thumbFolder)) {
         mkdir($thumbFolder, 0777, true);
     }
 
     $extension_pos = strrpos($url, '.');
     $thumb = $thumbFolder . "/" . basename(substr($url, 0, $extension_pos)) . '_tw_thumb' . substr($url, $extension_pos);
-    $thumbLocal = 'plugins/twittercards/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
+    $thumbLocal = PHPWG_PLUGINS_PATH . basename(dirname(__FILE__)) . '/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
     // Check if a thumb already exists, otherwise create a thumb
     if (!file_exists( $thumb ))
     {
