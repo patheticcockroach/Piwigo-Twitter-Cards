@@ -16,7 +16,7 @@ class TwitterCard
 
     // get image url
     $query = sprintf('
-      select path, name
+      select path, name, comment
       FROM '.IMAGES_TABLE.'
       WHERE id = %s
     ;',
