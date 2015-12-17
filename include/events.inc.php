@@ -13,6 +13,7 @@ class TwitterCard
   function twittercard_load ($content)
   {
     global $template,$picture,$page;
+    global $twitter_site;
 
     // get image url
     $query = sprintf('
@@ -142,26 +143,12 @@ class TwitterCard
         imageToFile($im, $thumb);
     }
 
-    //$info = getimagesize( $thumb );
-    //$width  = isset($info['width'])  ? $info['width']  : $info[0];
-    //$height = isset($info['height']) ? $info['height'] : $info[1];
-
-    // <meta name="twitter:image:width" content="' . $width . '">
-    // <meta name="twitter:image:height" content="' . $height . '">
-    //<meta property="og:title" content="' . $title . '" />
-    //<meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '" />');
-
-
-    $twitter_site = '@cloelkes';
-
-    $template->append('head_elements',
-    '
+    $template->append('head_elements','
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="' . $title . '">
     <meta name="twitter:description" content="' . $description . '">
     <meta name="twitter:site" content="' . $twitter_site . '">
-    <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">
-    ');
+    <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">');
   }
 }
 

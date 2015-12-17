@@ -6,6 +6,9 @@ Author: umrysh
 Description: Twitter Cards
 */
 
+// Provide your Twitter Username here in order to use Twitter analytics
+$twitter_site = ''; // @username
+
 // Check whether we are indeed included by Piwigo.
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
