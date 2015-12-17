@@ -13,6 +13,7 @@ class TwitterCard
   function twittercard_load ($content)
   {
     global $template,$picture,$page;
+    global $TwitterCardsPluginPath
 
     // get image url
     $query = sprintf('
