@@ -13,7 +13,6 @@ class TwitterCard
   function twittercard_load ($content)
   {
     global $template,$picture,$page;
-    global $TwitterCardsPluginPath;
 
     // get image url
     $query = sprintf('
@@ -30,15 +29,14 @@ class TwitterCard
 
 
     // Check if folder exists
-    // Thumbs will be created inside this plugin folder.
-    $thumbFolder = $TwitterCardsPluginPath . '/thumbs/' . dirname($url);
+    $thumbFolder = PHPWG_PLUGINS_PATH . basename(dirname(dirname(__FILE__))) . '/thumbs/' . dirname($url);
     if (!file_exists( $thumbFolder)) {
         mkdir($thumbFolder, 0777, true);
     }
 
     $extension_pos = strrpos($url, '.');
     $thumb = $thumbFolder . "/" . basename(substr($url, 0, $extension_pos)) . '_tw_thumb' . substr($url, $extension_pos);
-    $thumbLocal = $TwitterCardsPluginPath . '/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
+    $thumbLocal = PHPWG_PLUGINS_PATH . basename(dirname(dirname(__FILE__))) . '/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
     // Check if a thumb already exists, otherwise create a thumb
     if (!file_exists( $thumb ))
     {
