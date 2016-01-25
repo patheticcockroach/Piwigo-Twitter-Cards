@@ -13,10 +13,11 @@ class TwitterCard
   function twittercard_load ($content)
   {
     global $template,$picture,$page;
+    global $twitter_site;
 
     // get image url
     $query = sprintf('
-      select path, name
+      select path, name, comment
       FROM '.IMAGES_TABLE.'
       WHERE id = %s
     ;',
@@ -25,21 +26,23 @@ class TwitterCard
     $row = pwg_db_fetch_assoc($result);
     $url = substr($row['path'],2);
     $title= str_replace('"', '\"',$row['name']);
+    $description= str_replace('"', '\"',$row['comment']);
+
 
     // Check if folder exists
-    $thumbFolder = $_SERVER['DOCUMENT_ROOT'] . '/plugins/twittercards/thumbs/' . dirname($url);
+    $thumbFolder = PHPWG_PLUGINS_PATH . basename(dirname(dirname(__FILE__))) . '/thumbs/' . dirname($url);
     if (!file_exists( $thumbFolder)) {
         mkdir($thumbFolder, 0777, true);
     }
 
     $extension_pos = strrpos($url, '.');
     $thumb = $thumbFolder . "/" . basename(substr($url, 0, $extension_pos)) . '_tw_thumb' . substr($url, $extension_pos);
-    $thumbLocal = 'plugins/twittercards/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
+    $thumbLocal = PHPWG_PLUGINS_PATH . basename(dirname(dirname(__FILE__))) . '/thumbs/' . substr($url, 0, $extension_pos) . '_tw_thumb' . substr($url, $extension_pos);
     // Check if a thumb already exists, otherwise create a thumb
     if (!file_exists( $thumb ))
     {
         /**
-        * Create a thumbnail image from $inputFileName no taller or wider than 
+        * Create a thumbnail image from $inputFileName no taller or wider than
         * $maxSize. Returns the new image resource or false on error.
         * Author: mthorn.net
         */
@@ -140,13 +143,12 @@ class TwitterCard
         imageToFile($im, $thumb);
     }
 
-    $info = getimagesize( $thumb );
-    $width  = isset($info['width'])  ? $info['width']  : $info[0];
-    $height = isset($info['height']) ? $info['height'] : $info[1];
-    
-
-    $template->append('head_elements',
-    '<meta name="twitter:card" content="photo"><meta name="twitter:title" content="' . $title . '"><meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '"><meta name="twitter:image:width" content="' . $width . '"><meta name="twitter:image:height" content="' . $height . '"><meta property="og:title" content="' . $title . '" /><meta property="og:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '" />');
+    $template->append('head_elements','
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="' . $title . '">
+    <meta name="twitter:description" content="' . $description . '">
+    <meta name="twitter:site" content="' . $twitter_site . '">
+    <meta name="twitter:image" content="http://' . $_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], '?')), '/')) . '/' . $thumbLocal . '">');
   }
 }
 
@@ -163,6 +165,6 @@ function test_for_gvideo($picture)
         $obj = new Twittercard();
         add_event_handler('render_element_content', array(&$obj, 'twittercard_load'),EVENT_HANDLER_PRIORITY_NEUTRAL-10, 2);
     }
-  
+
   return $picture;
 }
