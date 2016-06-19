@@ -1,0 +1,2 @@
+Great tool to debug OpenGraph:
+https://developers.facebook.com/tools/debug/
